@@ -822,7 +822,7 @@ makeSectionHeader("Auto Steal")
 makeGap(2)
 setInstaGrab = makeToggleRow("Insta Grab", false, function(on)
 StealAutoEnabled = on
-if on then pcall(startAutoSteal) else stopAutoSteal() end
+if on then startAutoSteal() else stopAutoSteal() end
 end)
 makeInputRow("Steal Radius", 63, function(n)
 if n >= 5 and n <= 300 then STEAL_RADIUS = math.floor(n) end
@@ -883,119 +883,6 @@ if tabPages[n] then
 tabPages[n].Visible = active
 end
 end
-
--- ============================================================
--- STACK BUTTONS (Floating square buttons)
--- ============================================================
-local stackRefs = stackRefs or {}
-local stackButtons = {}
-
-local stackDefs = {
-{key = "bat", label = "BAT", color = C.stackActBg},
-{key = "left", label = "LEFT", color = C.stackActBg},
-{key = "right", label = "RIGHT", color = C.stackActBg},
-}
-
-local BTN_SIZE = 70
-local startX = 10
-for i, def in ipairs(stackDefs) do
-local btn = Instance.new("TextButton", gui)
-btn.Name = "HentaiStack_" .. def.key
-btn.Size = UDim2.new(0, BTN_SIZE, 0, BTN_SIZE)
-btn.Position = UDim2.new(0, startX + (i - 1) * (BTN_SIZE + 8), 0, 10)
-btn.BackgroundColor3 = C.stackBg
-btn.BorderSizePixel = 0
-btn.Text = def.label
-btn.TextColor3 = C.stackTxt
-btn.Font = Enum.Font.GothamBlack
-btn.TextSize = 14
-btn.ZIndex = 15
-btn.Active = true
-mkCorner(btn, 12)
-local bStroke = mkStroke(btn, C.stackBrd, 2)
-
-local isActive = false
-local function setActive(v)
-isActive = v
-TweenService:Create(btn, TweenInfo.new(0.15), {
-BackgroundColor3 = v and def.color or C.stackBg,
-TextColor3 = v and C.stackActTxt or C.stackTxt,
-}):Play()
-TweenService:Create(bStroke, TweenInfo.new(0.15), {
-Color = v and C.stackActBrd or C.stackBrd,
-}):Play()
-end
-
-btn.MouseButton1Click:Connect(function()
-if def.key == "bat" then
-State.batAimbotToggled = not State.batAimbotToggled
-setActive(State.batAimbotToggled)
-if State.batAimbotToggled then
-if State.autoLeftEnabled then
-State.autoLeftEnabled = false
-if stackRefs.left then stackRefs.left.UpdateBg(false) end
-end
-if State.autoRightEnabled then
-State.autoRightEnabled = false
-if stackRefs.right then stackRefs.right.UpdateBg(false) end
-end
-end
-elseif def.key == "left" then
-State.autoLeftEnabled = not State.autoLeftEnabled
-setActive(State.autoLeftEnabled)
-if State.autoLeftEnabled then
-State.autoRightEnabled = false
-if stackRefs.right then stackRefs.right.UpdateBg(false) end
-if State.batAimbotToggled then
-State.batAimbotToggled = false
-if stackRefs.bat then stackRefs.bat.UpdateBg(false) end
-end
-startAutoLeft()
-else
-stopAutoLeft()
-end
-elseif def.key == "right" then
-State.autoRightEnabled = not State.autoRightEnabled
-setActive(State.autoRightEnabled)
-if State.autoRightEnabled then
-State.autoLeftEnabled = false
-if stackRefs.left then stackRefs.left.UpdateBg(false) end
-if State.batAimbotToggled then
-State.batAimbotToggled = false
-if stackRefs.bat then stackRefs.bat.UpdateBg(false) end
-end
-startAutoRight()
-else
-stopAutoRight()
-end
-end
-end)
-
-stackButtons[def.key] = btn
-stackRefs[def.key] = {UpdateBg = setActive}
-end
-
--- Toggle button to show/hide stack buttons
-local toggleStackBtn = Instance.new("TextButton", gui)
-toggleStackBtn.Name = "HentaiToggleStack"
-toggleStackBtn.Size = UDim2.new(0, 30, 0, 30)
-toggleStackBtn.Position = UDim2.new(0, startX + 3 * BTN_SIZE + 24, 0, 30)
-toggleStackBtn.BackgroundColor3 = C.stackBg
-toggleStackBtn.BorderSizePixel = 0
-toggleStackBtn.Text = "≡"
-toggleStackBtn.TextColor3 = C.stackTxt
-toggleStackBtn.Font = Enum.Font.GothamBold
-toggleStackBtn.TextSize = 18
-toggleStackBtn.ZIndex = 15
-mkCorner(toggleStackBtn, 8)
-mkStroke(toggleStackBtn, C.stackBrd, 1)
-local stackVisible = true
-toggleStackBtn.MouseButton1Click:Connect(function()
-stackVisible = not stackVisible
-for _, btn in pairs(stackButtons) do
-btn.Visible = stackVisible
-end
-end)
 
 -- ============================================================
 -- AUTO LEFT / RIGHT LOGIC
@@ -1523,19 +1410,29 @@ local p = findNearestPrompt()
 if p then executeSteal(p) end
 end)
 end
-stealConns.steal
+
 function stopAutoSteal()
-if stealConns.steal then stealConns.steal:Disconnect();  = nil end
+if stealConns.steal then stealConns.steal:Disconnect(); stealConns.steal = nil end
 isStealing = false
 end
 
+-- ============================================================
+-- MISSING FUNCTIONS (FPS Boost, Medusa Counter)
+-- ============================================================
+function applyFPSBoost()
+-- Implementação simples: reduzir qualidade gráfica
+pcall(function()
+settings().Rendering.QualityLevel = 1
+end)
+end
 
+function setupMedusaCounter(char)
+-- Placeholder
+end
 
-
-
-
-
-
+function stopMedusaCounter()
+-- Placeholder
+end
 
 -- ============================================================
 -- STACK BUTTONS (Floating square buttons) — CORRIGIDO
@@ -1563,7 +1460,7 @@ btn.Text = def.label
 btn.TextColor3 = C.stackTxt
 btn.Font = Enum.Font.GothamBlack
 btn.TextSize = 14
-btn.ZIndex = 20 -- Aumentado para garantir que fique por cima
+btn.ZIndex = 20
 btn.Active = true
 btn.Selectable = true
 mkCorner(btn, 12)
@@ -1594,9 +1491,7 @@ State.autoRightEnabled = not State.autoRightEnabled
 setActive(State.autoRightEnabled)
 if State.autoRightEnabled then startAutoRight() else stopAutoRight() end
 elseif def.key == "drop" then
--- Chama a função de drop que você definiu no script
 pcall(function() runDropBrainrot() end)
--- Feedback visual rápido de clique
 btn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 task.wait(0.2)
 btn.BackgroundColor3 = C.stackBg
