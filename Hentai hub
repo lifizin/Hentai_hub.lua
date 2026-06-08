@@ -1,6 +1,5 @@
 -- ============================================================
--- HENTAI HUB v2.0
--- Baseado em Klrx hub v5.2 (totalmente funcional)
+-- Klrx hub  v5.2 (com Irish Tp Bat v4.2 orbital)
 -- ============================================================
 
 local Players         = game:GetService("Players")
@@ -81,9 +80,9 @@ local Steal = {
 -- PRESETS
 -- ============================================================
 local Presets = {}
-local PRESET_FILE = "HentaiHubPresets.json"
-local LAST_PRESET_FILE = "HentaiHubLastPreset.json"
-local CONFIG_FILE = "HentaiHubConfig.json"
+local PRESET_FILE = "OpiumGGPresets.json"
+local LAST_PRESET_FILE = "OpiumGGLastPreset.json"
+local CONFIG_FILE = "OpiumGGConfig.json"
 
 local function buildPresetSnapshot()
     return {
@@ -162,14 +161,14 @@ local presetNameBox=nil
 local rebuildPresetList
 
 -- ============================================================
--- COLORS (Hentai Hub theme — dark purple/black)
+-- COLORS  (Cursed Hub theme — black & white)
 -- ============================================================
 local C = {
-    winBg       = Color3.fromRGB(5, 0, 10),
-    winBorder   = Color3.fromRGB(40, 20, 60),
-    topBg       = Color3.fromRGB(5, 0, 10),
-    topTitle    = Color3.fromRGB(230,200,255),
-    topSub      = Color3.fromRGB(80, 60, 100),
+    winBg       = Color3.fromRGB(0, 0, 0),
+    winBorder   = Color3.fromRGB(32, 32, 32),
+    topBg       = Color3.fromRGB(0, 0, 0),
+    topTitle    = Color3.fromRGB(230,230,230),
+    topSub      = Color3.fromRGB(70, 70, 70),
     topBtn      = Color3.fromRGB(90, 90, 90),
     topBtnHov   = Color3.fromRGB(220,220,220),
     topDivider  = Color3.fromRGB(22, 22, 22),
@@ -235,7 +234,7 @@ local C = {
 -- ============================================================
 -- CLEANUP
 -- ============================================================
-for _,name in pairs({"HentaiHub","VyseSlottedGUI","VyseAsireGUI","VyseAsireHubV4","VyseAsireHubV5","VyseAsireHubV5_1","AsireHubV5_1","AsireHubV5_2","OpiumGGV5_2"}) do
+for _,name in pairs({"VyseSlottedGUI","VyseAsireGUI","VyseAsireHubV4","VyseAsireHubV5","VyseAsireHubV5_1","AsireHubV5_1","AsireHubV5_2","OpiumGGV5_2"}) do
     pcall(function() local o=game:GetService("CoreGui"):FindFirstChild(name); if o then o:Destroy() end end)
     pcall(function() local o=LP:WaitForChild("PlayerGui"):FindFirstChild(name); if o then o:Destroy() end end)
 end
@@ -244,7 +243,7 @@ end
 -- ROOT GUI
 -- ============================================================
 local gui=Instance.new("ScreenGui")
-gui.Name="HentaiHub"; gui.ResetOnSpawn=false; gui.DisplayOrder=10
+gui.Name="OpiumGGV5_2"; gui.ResetOnSpawn=false; gui.DisplayOrder=10
 gui.IgnoreGuiInset=true; gui.ZIndexBehavior=Enum.ZIndexBehavior.Sibling
 gui.Parent=LP:WaitForChild("PlayerGui")
 
@@ -338,7 +337,7 @@ bgImg.Size = UDim2.new(1, 0, 1, 0)
 bgImg.Position = UDim2.new(0, 0, 0, 0)
 bgImg.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 bgImg.BackgroundTransparency = 0
-bgImg.Image = LOGO_ID
+bgImg.Image = "rbxassetid://84096223400137"
 bgImg.ScaleType = Enum.ScaleType.Crop
 bgImg.ImageTransparency = 0
 bgImg.ZIndex = 0
@@ -366,7 +365,7 @@ local titleLbl = Instance.new("TextLabel", titleBar)
 titleLbl.Size = UDim2.new(0, 160, 1, 0)
 titleLbl.Position = UDim2.new(0, 12, 0, 0)
 titleLbl.BackgroundTransparency = 1
-titleLbl.Text = "Hentai Hub"
+titleLbl.Text = "Klrx hub"
 titleLbl.TextColor3 = C.topTitle
 titleLbl.Font = Enum.Font.GothamBlack
 titleLbl.TextSize = 13
@@ -388,7 +387,7 @@ closeBtn.ZIndex = 7
 local closeBtnImg = Instance.new("ImageLabel", closeBtn)
 closeBtnImg.Size = UDim2.new(1, 0, 1, 0)
 closeBtnImg.BackgroundTransparency = 1
-closeBtnImg.Image = LOGO_ID
+closeBtnImg.Image = "rbxassetid://84096223400137"
 closeBtnImg.ZIndex = 8
 mkCorner(closeBtn, 5)
 mkStroke(closeBtn, C.chipBorder, 1)
@@ -804,10 +803,12 @@ buildPage("Bat Aimbot", function()
     makeSectionHeader("Auto Bat Settings")
     makeGap(2)
 
-    makeInputRow("Bat Speed", AUTO_BAT_SPEED, function(n)
+    makeInputRow("Bat Speed", 25, function(n)
         if n > 0 and n <= 300 then AUTO_BAT_SPEED = n end
     end)
-
+    makeInputRow("Bat Radius", 2.5, function(n)
+        if n > 0 then AUTO_BAT_RADIUS = n end
+    end)
 
     makeGap(4)
     makeSectionHeader("Combat Options")
@@ -1083,7 +1084,7 @@ buildPage("Settings", function()
     local fw = Instance.new("Frame", currentPage); fw.Size = UDim2.new(1, 0, 0, 22)
     fw.BackgroundTransparency = 1; fw.BorderSizePixel = 0; fw.LayoutOrder = LO()
     local fl = Instance.new("TextLabel", fw); fl.Size = UDim2.new(1, 0, 1, 0)
-    fl.BackgroundTransparency = 1; fl.Text = "Hentai Hub  ·  v2.0"
+    fl.BackgroundTransparency = 1; fl.Text = "nxru  ·  v5.2"
     fl.TextColor3 = Color3.fromRGB(35,35,35); fl.Font = Enum.Font.Gotham; fl.TextSize = 10
     fl.TextXAlignment = Enum.TextXAlignment.Center
 end)
@@ -1150,13 +1151,13 @@ end
 -- VBTN (floating logo toggle)
 -- ============================================================
 local vBtnFrame = Instance.new("Frame", gui)
-vBtnFrame.Name = "HentaiHubVBtn"; vBtnFrame.Size = UDim2.new(0, 52, 0, 52)
+vBtnFrame.Name = "OpiumGGVBtn"; vBtnFrame.Size = UDim2.new(0, 52, 0, 52)
 vBtnFrame.Position = UDim2.new(1, -64, 0, 10)
 vBtnFrame.BackgroundTransparency = 1; vBtnFrame.BorderSizePixel = 0
 vBtnFrame.Active = true; vBtnFrame.ZIndex = 20
 local vBtnImg = Instance.new("ImageLabel", vBtnFrame)
 vBtnImg.Size = UDim2.new(1, 0, 1, 0); vBtnImg.Position = UDim2.new(0, 0, 0, 0)
-vBtnImg.BackgroundTransparency = 1; vBtnImg.Image = LOGO_ID
+vBtnImg.BackgroundTransparency = 1; vBtnImg.Image = "rbxassetid://84096223400137"
 vBtnImg.ScaleType = Enum.ScaleType.Fit; vBtnImg.ZIndex = 21
 local vDragging,vDragInput,vDragStart,vStartPos=false,nil,nil,nil; local vMoved=false
 vBtnFrame.InputBegan:Connect(function(inp)
@@ -1351,6 +1352,7 @@ end
 -- ============================================================
 -- DROP BRAINROT
 -- ============================================================
+-- Redbull-style drop: ascend fast, then pop off with velocity burst
 local DROP_ASCEND_DURATION = 0.2
 local DROP_ASCEND_SPEED    = 150
 local DROP_POP_SPEED       = 60
@@ -1364,6 +1366,7 @@ runDropBrainrot=function()
         local hum=c and c:FindFirstChildOfClass("Humanoid")
         if not root or not hum then stopDropBrainrot(); return end
 
+        -- Phase 1: ascend quickly
         local ascendConn; ascendConn=RunService.Heartbeat:Connect(function()
             if not State.dropEnabled then ascendConn:Disconnect(); return end
             if root and root.Parent then
@@ -1374,6 +1377,7 @@ runDropBrainrot=function()
         task.wait(DROP_ASCEND_DURATION)
         ascendConn:Disconnect()
 
+        -- Phase 2: pop off — burst downward + forward to drop the carried player
         if root and root.Parent then
             local fwd = root.CFrame.LookVector
             root.AssemblyLinearVelocity = Vector3.new(fwd.X*DROP_POP_SPEED, -DROP_POP_SPEED, fwd.Z*DROP_POP_SPEED)
@@ -1390,150 +1394,95 @@ stopDropBrainrot=function()
 end
 
 -- ============================================================
--- IRISH AUTO BAT (ported from Irish Hub v2.0)
+-- IRISH TP BAT v4.2 (substituído completamente)
 -- ============================================================
-local AUTO_BAT_SPEED       = 58
-local AUTO_BAT_VERT_SPEED  = 52
-local AUTO_BAT_DIST        = -2.8
-local AUTO_BAT_HEIGHT      = 4.75
-local AUTO_BAT_V_OFF       = 1
-local AUTO_BAT_TURN_SPEED  = 285
-local AUTO_BAT_MAX_TURN    = 28
+local AUTO_BAT_SPEED = 25      -- velocidade orbital
+local AUTO_BAT_RADIUS = 2.5    -- raio da órbita
 
-local _autoBatTarget       = nil
-local _autoBatLastScan     = 0
-local _autoBatEquipped     = false
-local _autoTPWasEnabled    = false
-
-local function getAutoBatTarget()
-    local root = LP.Character and LP.Character:FindFirstChild("HumanoidRootPart")
-    if not root then return nil end
-    local now = tick()
-    if now - _autoBatLastScan <= 0.1 and _autoBatTarget and _autoBatTarget.Parent then
-        local hum2 = _autoBatTarget.Parent:FindFirstChildOfClass("Humanoid")
-        if hum2 and hum2.Health > 0 then return _autoBatTarget end
-    end
-    _autoBatLastScan = now
-    _autoBatTarget = nil
+local function getClosestPlayer()
+    local myChar = LP.Character
+    if not myChar or not myChar:FindFirstChild("HumanoidRootPart") then return nil end
+    local myRoot = myChar.HumanoidRootPart
     local closest, minDist = nil, math.huge
-    for _, plr in ipairs(Players:GetPlayers()) do
-        if plr ~= LP and plr.Character then
-            local tRoot = plr.Character:FindFirstChild("HumanoidRootPart")
-            local hum2  = plr.Character:FindFirstChildOfClass("Humanoid")
-            if tRoot and hum2 and hum2.Health > 0 then
-                local dist = (tRoot.Position - root.Position).Magnitude
-                if dist < minDist then minDist = dist; closest = tRoot end
+    for _, player in ipairs(Players:GetPlayers()) do
+        if player ~= LP and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            local targetRoot = player.Character.HumanoidRootPart
+            local dist = (targetRoot.Position - myRoot.Position).Magnitude
+            if dist < minDist then
+                minDist = dist
+                closest = player.Character
             end
         end
     end
-    _autoBatTarget = closest
-    return _autoBatTarget
+    return closest
 end
 
-local function resetAutoBatMotion()
-    local c    = LP.Character
-    local rp   = c and c:FindFirstChild("HumanoidRootPart")
-    local hum2 = c and c:FindFirstChildOfClass("Humanoid")
-    if rp   then rp.AssemblyLinearVelocity  = rp.AssemblyLinearVelocity * 0.3
-                 rp.AssemblyAngularVelocity = Vector3.zero end
-    if hum2 then hum2.AutoRotate = true end
-end
-
-local function enableAutoBat()
-    if State.autoLeftEnabled then
-        State.autoLeftEnabled = false
-        if stackBtnRefs.autoLeft then stackBtnRefs.autoLeft.setOn(false) end
-    end
-    if State.autoRightEnabled then
-        State.autoRightEnabled = false
-        if stackBtnRefs.autoRight then stackBtnRefs.autoRight.setOn(false) end
-    end
-    _autoBatEquipped   = false
-    State.batAimbotToggled = true
-end
-
-local function disableAutoBat()
-    State.batAimbotToggled = false
-    _autoBatEquipped   = false
-    local c    = LP.Character
-    local hum2 = c and c:FindFirstChildOfClass("Humanoid")
-    if hum2 then hum2.AutoRotate = true end
-    resetAutoBatMotion()
-end
-
-RunService.Heartbeat:Connect(function()
-    if not State.batAimbotToggled then return end
-    local c    = LP.Character
-    local hum2 = c and c:FindFirstChildOfClass("Humanoid")
-    local root = c and c:FindFirstChild("HumanoidRootPart")
-    if not root or not hum2 then return end
-
-    if not _autoBatEquipped then
-        _autoBatEquipped = true
-        if not c:FindFirstChildOfClass("Tool") then
-            local bp   = LP:FindFirstChildOfClass("Backpack") or LP:FindFirstChild("Backpack")
-            local bpBat = bp and bp:FindFirstChild("Bat")
-            if bpBat then pcall(function() hum2:EquipTool(bpBat) end) end
+local function equipBat()
+    local char = LP.Character
+    local bp = LP:FindFirstChild("Backpack")
+    if char and bp then
+        local bat = bp:FindFirstChild("Bat") or char:FindFirstChild("Bat")
+        if bat and bat.Parent ~= char then
+            bat.Parent = char
         end
     end
+end
 
-    local target = getAutoBatTarget()
-    if target then
-        local targetVel    = target.AssemblyLinearVelocity
-        local aimTargetPos = target.Position
-            + (targetVel * math.clamp(targetVel.Magnitude / 130, 0.05, 0.15))
-            + Vector3.new(0, AUTO_BAT_V_OFF, 0)
-
-        hum2.AutoRotate = false
-
-        local look     = aimTargetPos - root.Position
-        local flatLook = Vector3.new(look.X, 0, look.Z)
-
-        if look.Magnitude > 0.01 and flatLook.Magnitude > 0.01 then
-            local targetYaw   = math.deg(math.atan2(-flatLook.X, -flatLook.Z))
-            local yawDelta    = (targetYaw - root.Orientation.Y + 180) % 360 - 180
-            local targetPitch = math.deg(math.atan2(look.Y, flatLook.Magnitude))
-            local pitchDelta  = (targetPitch - root.Orientation.X + 180) % 360 - 180
-            local yawRate     = math.clamp(math.rad(yawDelta)   * AUTO_BAT_TURN_SPEED, -AUTO_BAT_MAX_TURN, AUTO_BAT_MAX_TURN)
-            local pitchRate   = math.clamp(math.rad(pitchDelta) * AUTO_BAT_TURN_SPEED, -AUTO_BAT_MAX_TURN, AUTO_BAT_MAX_TURN)
-            local yawRad      = math.rad(root.Orientation.Y)
-            local rightAxis   = Vector3.new(math.cos(yawRad), 0, -math.sin(yawRad))
-            root.AssemblyAngularVelocity = Vector3.new(0, yawRate, 0) + (rightAxis * pitchRate)
-        else
-            root.AssemblyAngularVelocity = Vector3.zero
-        end
-
-        local dir      = look.Magnitude > 0.01 and look.Unit or Vector3.zero
-        local standPos = aimTargetPos - (dir * AUTO_BAT_DIST) + Vector3.new(0, AUTO_BAT_HEIGHT, 0)
-        local moveDir  = standPos - root.Position
-        local hDir     = Vector3.new(moveDir.X, 0, moveDir.Z)
-        local hVel     = hDir.Magnitude > 0.1 and hDir.Unit * AUTO_BAT_SPEED or Vector3.zero
-        local vVel     = math.abs(moveDir.Y) > 0.1
-            and Vector3.new(0, math.sign(moveDir.Y) * AUTO_BAT_VERT_SPEED, 0)
-            or  Vector3.new(0, -2, 0)
-        root.AssemblyLinearVelocity = hVel + vVel
-        if hDir.Magnitude > 0.5 then hum2:Move(hDir.Unit, false) end
-    else
-        hum2.AutoRotate = true
-        root.AssemblyAngularVelocity = Vector3.zero
-    end
-
-    if State.autoSwingEnabled then
-        local bat = c:FindFirstChild("Bat")
-        if bat and bat:IsA("Tool") then
-            bat:Activate()
-        end
-    end
-end)
+local savedBatPosition = nil
 
 startBatAimbot = function()
-    enableAutoBat()
+    if State.batAimbotToggled then return end
+    State.batAimbotToggled = true
+    
+    -- Salva posição atual
+    local myChar = LP.Character
+    if myChar and myChar:FindFirstChild("HumanoidRootPart") then
+        savedBatPosition = myChar.HumanoidRootPart.CFrame
+    end
 end
 
 stopBatAimbot = function()
-    disableAutoBat()
-    if Conns.aimbot then Conns.aimbot:Disconnect(); Conns.aimbot = nil end
+    State.batAimbotToggled = false
+    
+    -- Restaura posição se existir
+    if savedBatPosition then
+        local myChar = LP.Character
+        if myChar and myChar:FindFirstChild("HumanoidRootPart") then
+            myChar.HumanoidRootPart.CFrame = savedBatPosition
+        end
+        savedBatPosition = nil
+    end
 end
+
+-- Heartbeat principal do Irish Tp Bat
+RunService.Heartbeat:Connect(function()
+    if not State.batAimbotToggled then return end
+    
+    local myChar = LP.Character
+    local myHrp = myChar and myChar:FindFirstChild("HumanoidRootPart")
+    if not myHrp then return end
+    
+    local targetChar = getClosestPlayer()
+    if targetChar and targetChar:FindFirstChild("HumanoidRootPart") then
+        local targetHrp = targetChar.HumanoidRootPart
+        equipBat()
+        
+        -- Órbita circular usando seno/cosseno (Irish Tp Bat)
+        local currentTime = tick()
+        local offsetX = math.sin(currentTime * AUTO_BAT_SPEED) * AUTO_BAT_RADIUS
+        local offsetZ = math.cos(currentTime * AUTO_BAT_SPEED) * AUTO_BAT_RADIUS
+        
+        myHrp.CFrame = CFrame.new(targetHrp.Position + Vector3.new(offsetX, 0, offsetZ), targetHrp.Position)
+        
+        -- Auto Swing
+        if State.autoSwingEnabled then
+            local bat = myChar:FindFirstChild("Bat")
+            if bat and bat:IsA("Tool") then
+                pcall(function() bat:Activate() end)
+            end
+        end
+    end
+end)
 
 -- ============================================================
 -- BAT COUNTER
@@ -1622,8 +1571,6 @@ startAutoLeft=function()
         if not State.autoLeftEnabled then return end; local c=LP.Character; if not c then return end
         local root=c:FindFirstChild("HumanoidRootPart"); local hum2=c:FindFirstChildOfClass("Humanoid"); if not root or not hum2 then return end
         local spd=State.normalSpeed
-        if State.speedToggled then spd=State.carrySpeed
-        elseif State.laggerEnabled then spd=State.laggerSpeed end
         if State.autoLeftPhase==1 then
             local tgt=Vector3.new(POS.L1.X,root.Position.Y,POS.L1.Z); if (tgt-root.Position).Magnitude<1 then State.autoLeftPhase=2; local d=(POS.L2-root.Position); local mv=Vector3.new(d.X,0,d.Z).Unit; hum2:Move(mv,false); root.AssemblyLinearVelocity=Vector3.new(mv.X*spd,root.AssemblyLinearVelocity.Y,mv.Z*spd); return end
             local d=(POS.L1-root.Position); local mv=Vector3.new(d.X,0,d.Z).Unit; hum2:Move(mv,false); root.AssemblyLinearVelocity=Vector3.new(mv.X*spd,root.AssemblyLinearVelocity.Y,mv.Z*spd)
@@ -1645,8 +1592,6 @@ startAutoRight=function()
         if not State.autoRightEnabled then return end; local c=LP.Character; if not c then return end
         local root=c:FindFirstChild("HumanoidRootPart"); local hum2=c:FindFirstChildOfClass("Humanoid"); if not root or not hum2 then return end
         local spd=State.normalSpeed
-        if State.speedToggled then spd=State.carrySpeed
-        elseif State.laggerEnabled then spd=State.laggerSpeed end
         if State.autoRightPhase==1 then
             local tgt=Vector3.new(POS.R1.X,root.Position.Y,POS.R1.Z); if (tgt-root.Position).Magnitude<1 then State.autoRightPhase=2; local d=(POS.R2-root.Position); local mv=Vector3.new(d.X,0,d.Z).Unit; hum2:Move(mv,false); root.AssemblyLinearVelocity=Vector3.new(mv.X*spd,root.AssemblyLinearVelocity.Y,mv.Z*spd); return end
             local d=(POS.R1-root.Position); local mv=Vector3.new(d.X,0,d.Z).Unit; hum2:Move(mv,false); root.AssemblyLinearVelocity=Vector3.new(mv.X*spd,root.AssemblyLinearVelocity.Y,mv.Z*spd)
@@ -1818,9 +1763,7 @@ saveConfig = function()
         autoStealEnabled = Steal.AutoStealEnabled,
         autoSwingEnabled = State.autoSwingEnabled,
         autoBatSpeed     = AUTO_BAT_SPEED,
-        autoBatHeight    = AUTO_BAT_HEIGHT,
-        autoBatDist      = AUTO_BAT_DIST,
-        autoBatTurnSpeed = AUTO_BAT_TURN_SPEED,
+        autoBatRadius    = AUTO_BAT_RADIUS,
 
         stackPositions   = stackPositions,
     }
@@ -1834,12 +1777,12 @@ end
 loadConfig = function()
     local hasFile = false
     pcall(function() hasFile = _isfile(CONFIG_FILE) end)
-    if not hasFile then pcall(function() hasFile = _isfile("HentaiHubConfig.json") end) end
+    if not hasFile then pcall(function() hasFile = _isfile("OpiumGGConfig.json") end) end
     if not hasFile then return end
 
     local raw
     local ok = pcall(function() raw = _readfile(CONFIG_FILE) end)
-    if not ok or not raw then pcall(function() raw = _readfile("HentaiHubConfig.json") end) end
+    if not ok or not raw then pcall(function() raw = _readfile("OpiumGGConfig.json") end) end
     if not raw then return end
 
     local cfg; local ok2 = pcall(function() cfg = HttpService:JSONDecode(raw) end)
@@ -1860,9 +1803,7 @@ loadConfig = function()
     end
     if cfg.autoSwingEnabled then State.autoSwingEnabled = cfg.autoSwingEnabled; if setAutoSwing then setAutoSwing(true) end end
     if cfg.autoBatSpeed     then AUTO_BAT_SPEED      = cfg.autoBatSpeed     end
-    if cfg.autoBatHeight    then AUTO_BAT_HEIGHT     = cfg.autoBatHeight    end
-    if cfg.autoBatDist      then AUTO_BAT_DIST       = cfg.autoBatDist      end
-    if cfg.autoBatTurnSpeed then AUTO_BAT_TURN_SPEED = cfg.autoBatTurnSpeed end
+    if cfg.autoBatRadius    then AUTO_BAT_RADIUS     = cfg.autoBatRadius    end
 
     if cfg.stackPositions then
         for key, pos in pairs(cfg.stackPositions) do
@@ -1915,10 +1856,10 @@ local function setupChar(char)
 
     local head=char:FindFirstChild("Head")
     if head then
-        local oldBB=head:FindFirstChild("HentaiHubBB"); if oldBB then oldBB:Destroy() end
+        local oldBB=head:FindFirstChild("OpiumGGBB"); if oldBB then oldBB:Destroy() end
 
         local bb=Instance.new("BillboardGui", head)
-        bb.Name="HentaiHubBB"
+        bb.Name="OpiumGGBB"
         bb.Size=UDim2.new(0, 160, 0, 52)
         bb.StudsOffset=Vector3.new(0, 3, 0)
         bb.AlwaysOnTop=true
@@ -1939,7 +1880,7 @@ local function setupChar(char)
         lbl2.Size=UDim2.new(1, 0, 0, 24)
         lbl2.Position=UDim2.new(0, 0, 0, 28)
         lbl2.BackgroundTransparency=1
-        lbl2.Text="Hentai Hub"
+        lbl2.Text="Klrx hub"
         lbl2.TextColor3=Color3.fromRGB(160, 160, 160)
         lbl2.Font=Enum.Font.GothamBold
         lbl2.TextScaled=true
@@ -1999,7 +1940,7 @@ RunService.RenderStepped:Connect(function()
     pcall(function()
         local head2 = LP.Character and LP.Character:FindFirstChild("Head")
         if head2 then
-            local bb2 = head2:FindFirstChild("HentaiHubBB")
+            local bb2 = head2:FindFirstChild("OpiumGGBB")
             local sl = bb2 and bb2:FindFirstChild("SpeedBillLbl")
             if sl then
                 local hspd = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z).Magnitude
@@ -2087,4 +2028,4 @@ end)
 
 task.delay(1, function() pcall(saveConfig) end)
 
-print("[Hentai Hub v2.0] Carregado com sucesso!")
+print("[Klrx hub v5.2 com Irish Tp Bat] Carregado com sucesso!")
